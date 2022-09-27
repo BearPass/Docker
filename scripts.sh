@@ -124,7 +124,7 @@ function install() {
         fi
     fi
 
-    sed -i '' -e "s|BEARPASS_SITE_URL|$BEARPASS_URL|g" $NGINX_CONF
+    sed -i "s|BEARPASS_SITE_URL|$BEARPASS_URL|g" $NGINX_CONF
 
     APP_ENV_START="$DIR/app/conf/.env.start"
 
