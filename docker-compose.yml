@@ -1,0 +1,44 @@
+version: "3.6"
+
+services:
+
+  database:
+    image: postgres:14.5-alpine
+    container_name: bearpass_database
+
+  app:
+    image: bearpass:latest
+    container_name: bearpass_app
+    build:
+      context: ./app
+    depends_on:
+      - database
+    networks:
+      - default
+      - public
+
+  nginx:
+    image: bearpass-nginx
+    container_name: bearpass_nginx
+    build:
+      context: ./nginx
+    depends_on:
+      - app
+    networks:
+      - default
+      - public
+
+  cron:
+    image: bearpass-cron:latest
+    container_name: bearpass_cron
+    build:
+      context: ./cron
+    depends_on:
+      - database
+      - app
+
+networks:
+  default:
+    internal: true
+  public:
+    internal: false

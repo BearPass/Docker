@@ -1,0 +1,14 @@
+upstream bp_fastcgi_backend {
+  server app:9000;
+}
+
+server {
+    server_name BEARPASS_SITE_URL;
+    
+    set $BP_ROOT /var/www/bearpass;
+
+    include /var/www/bearpass/nginx.conf;
+
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+}

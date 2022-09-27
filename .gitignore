@@ -1,0 +1,6 @@
+.idea/
+.env
+
+docker-compose.override.yml
+
+nginx/conf/conf.d/app.conf

@@ -1,0 +1,41 @@
+version: "3.6"
+
+services:
+
+  database:
+    restart: unless-stopped
+    volumes:
+      - ../database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-bear_pass}
+      - POSTGRES_USER=${POSTGRES_USER:-bear_pass}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  app:
+    restart: unless-stopped
+    volumes:
+      - ../app/bearpass:/var/www/bearpass
+    build:
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+
+  nginx:
+    restart: unless-stopped
+    volumes:
+      - ../logs/nginx:/logs/nginx
+      - ../app/bearpass:/var/www/bearpass
+      - ../letsencrypt:/etc/letsencrypt
+    ports:
+      - ${NGINX_PORT:-80}:80
+      - ${NGINX_PORT_SSL:-443}:443
+
+  cron:
+    restart: unless-stopped
+    volumes:
+      - ../logs/cron:/var/log/cron
+      - ../app/bearpass:/var/www/bearpass
+    build:
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
