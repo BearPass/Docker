@@ -154,4 +154,8 @@ case $1 in
     "stop")
         dockerComposeDown
         ;;
+    "add-admin")
+        dockerComposeFiles && \
+        $DOCKER_COMMAND exec -u www-data app sh -c "cd /var/www/bearpass && php artisan make:user"
+        ;;
 esac
