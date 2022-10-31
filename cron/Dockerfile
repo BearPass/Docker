@@ -17,6 +17,9 @@ RUN set -ex && \
         curl-dev \
         icu-dev \
         postgresql-dev \
+        ldb-dev \
+        libldap \
+        openldap-dev \
         bash
 
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg && \

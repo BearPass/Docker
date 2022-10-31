@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     jpegoptim optipng pngquant gifsicle \
     unzip \
     git \
+    libldap2-dev \
     curl
 
 
