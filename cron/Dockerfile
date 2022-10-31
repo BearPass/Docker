@@ -28,6 +28,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg && \
     pdo_pgsql \
     zip \
     xml \
+    ldap \
     bcmath
 
 COPY ./conf/php/php.ini $PHP_INI_DIR/

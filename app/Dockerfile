@@ -35,6 +35,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg && \
     zip \
     xml \
     bcmath \
+    ldap \
     opcache
 
 
