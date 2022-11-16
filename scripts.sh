@@ -84,6 +84,16 @@ function dockerComposeUp() {
     $DOCKER_COMMAND up -d --build
 }
 
+function updateCertificate() {
+    if [ -d "${OUTPUT_DIR}/letsencrypt/live" ]
+    then
+        docker pull certbot/certbot
+        docker run -i --rm --name certbot -p 443:443 -p 80:80 \
+            -v $OUTPUT_DIR/letsencrypt:/etc/letsencrypt/ certbot/certbot \
+            renew --logs-dir /etc/letsencrypt/logs --force-renew
+    fi
+}
+
 
 function install() {
     DATABASE_PASSWORD="$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo '')"
@@ -157,5 +167,10 @@ case $1 in
     "add-admin")
         dockerComposeFiles && \
         $DOCKER_COMMAND exec -u www-data app sh -c "cd /var/www/bearpass && php artisan make:user"
+        ;;
+    "update-cert")
+        dockerComposeDown && \
+        updateCertificate && \
+        dockerComposeUp
         ;;
 esac
